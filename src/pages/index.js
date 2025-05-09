@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
-const SOCKET_URL = 'http://localhost:3001';
+const SOCKET_URL = process.env.NEXT_PUBLIC_SOCKET_URL || '/api/socket';
 
 const ROLE_DESCRIPTIONS = {
     'Student': {
@@ -38,6 +38,8 @@ const ROLE_DESCRIPTIONS = {
 
 // 创建 socket 实例
 const socket = io(SOCKET_URL, {
+    path: '/api/socket',
+    addTrailingSlash: false,
     transports: ['websocket', 'polling'],
     autoConnect: false,
     reconnection: true,
@@ -46,7 +48,6 @@ const socket = io(SOCKET_URL, {
     reconnectionDelayMax: 5000,
     timeout: 20000,
     forceNew: true,
-    path: '/socket.io/',
     withCredentials: true
 });
 
