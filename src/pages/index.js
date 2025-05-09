@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
-const SOCKET_URL = process.env.NEXT_PUBLIC_SOCKET_URL || '/api/socket';
+const SOCKET_URL = process.env.NEXT_PUBLIC_SOCKET_URL || 'http://localhost:3001';
 
 const ROLE_DESCRIPTIONS = {
     'Student': {
@@ -40,15 +40,14 @@ const ROLE_DESCRIPTIONS = {
 const socket = io(SOCKET_URL, {
     path: '/api/socket',
     addTrailingSlash: false,
-    transports: ['websocket', 'polling'],
-    autoConnect: false,
+    transports: ['websocket'],
+    autoConnect: true,
     reconnection: true,
     reconnectionAttempts: 10,
     reconnectionDelay: 1000,
     reconnectionDelayMax: 5000,
     timeout: 20000,
-    forceNew: true,
-    withCredentials: true
+    forceNew: true
 });
 
 // 结局内容映射
