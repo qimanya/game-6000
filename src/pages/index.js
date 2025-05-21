@@ -13,9 +13,11 @@ const firebaseConfig = {
     databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL
 };
 
-// 初始化Firebase
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
+let app, db;
+if (typeof window !== 'undefined') {
+    app = initializeApp(firebaseConfig);
+    db = getDatabase(app);
+}
 
 export default function Home() {
     // 游戏状态
@@ -41,6 +43,7 @@ export default function Home() {
     const [lastPingTime, setLastPingTime] = useState(null);
 
     useEffect(() => {
+        if (typeof window === 'undefined' || !db) return;
         // 生成玩家ID
         const newPlayerId = String(Math.floor(Math.random() * 9000) + 1000);
         setPlayerId(newPlayerId);
@@ -63,6 +66,7 @@ export default function Home() {
         // 添加玩家
         const playersRef = ref(db, 'players');
         const newPlayerRef = push(playersRef);
+        console.log('尝试写入玩家数据', newPlayerId);
         set(newPlayerRef, {
             id: newPlayerId,
             hand: [],
