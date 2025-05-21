@@ -1,18 +1,31 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { getDatabase, ref, set, push } from "firebase/database";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyD_yXL6KmXxRsQMXp3lSf-QlxVQXjJFXQk",
-  authDomain: "manya-30a04.firebaseapp.com",
-  projectId: "manya-30a04",
-  storageBucket: "manya-30a04.appspot.com",
-  messagingSenderId: "647712263523",
-  appId: "1:647712263523:web:2492ad7e1dcbd287809756",
-  measurementId: "G-SZHGRNYG55"
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
 };
 
-// 初始化Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+let app, db;
+if (typeof window !== "undefined") {
+  app = initializeApp(firebaseConfig);
+  db = getDatabase(app);
+}
+
+export function writeTestPlayer() {
+  if (!db) return;
+  const playersRef = ref(db, 'players');
+  const newPlayerRef = push(playersRef);
+  set(newPlayerRef, {
+    id: Math.floor(Math.random() * 10000),
+    test: true
+  });
+}
 
 export { db }; 

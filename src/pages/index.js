@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, onValue, set, push, remove } from "firebase/database";
+import { writeTestPlayer } from "../firebase";
 
 const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -84,6 +85,12 @@ export default function Home() {
                 remove(newPlayerRef);
             }
         };
+    }, []);
+
+    useEffect(() => {
+        if (typeof window === 'undefined') return;
+        writeTestPlayer(); // 测试写入firebase
+        // ... existing code ...
     }, []);
 
     // 处理出牌
