@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, onValue, set, push, remove } from "firebase/database";
 
@@ -13,14 +13,7 @@ const firebaseConfig = {
     databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL
 };
 
-let app, db;
-if (typeof window !== 'undefined') {
-    app = initializeApp(firebaseConfig);
-    db = getDatabase(app);
-}
-
 export default function Home() {
-    // 游戏状态
     const [gameState, setGameState] = useState({
         pressure: 0,
         max_pressure: 10,
@@ -31,7 +24,6 @@ export default function Home() {
         failed: false,
         used_crisis_cards: []
     });
-
     const [playerId, setPlayerId] = useState(null);
     const [totalPlayers, setTotalPlayers] = useState(0);
     const [connectionStatus, setConnectionStatus] = useState('Disconnected');
@@ -42,8 +34,19 @@ export default function Home() {
     const [reconnectAttempts, setReconnectAttempts] = useState(0);
     const [lastPingTime, setLastPingTime] = useState(null);
 
+    // 用useRef存储db实例
+    const dbRef = useRef(null);
+
     useEffect(() => {
-        if (typeof window === 'undefined' || !db) return;
+        if (typeof window === 'undefined') return;
+
+        // 初始化Firebase（只初始化一次）
+        if (!dbRef.current) {
+            const app = initializeApp(firebaseConfig);
+            dbRef.current = getDatabase(app);
+        }
+        const db = dbRef.current;
+
         // 生成玩家ID
         const newPlayerId = String(Math.floor(Math.random() * 9000) + 1000);
         setPlayerId(newPlayerId);
