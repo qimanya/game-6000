@@ -3,14 +3,14 @@ import { initializeApp } from "firebase/app";
 import { getDatabase, ref, onValue, set, push, remove } from "firebase/database";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyD_yXL6KmXxRsQMXp3lSf-QlxVQXjJFXQk",
-    authDomain: "manya-30a04.firebaseapp.com",
-    projectId: "manya-30a04",
-    storageBucket: "manya-30a04.appspot.com",
-    messagingSenderId: "647712263523",
-    appId: "1:647712263523:web:2492ad7e1dcbd287809756",
-    measurementId: "G-SZHGRNYG55",
-    databaseURL: "https://manya-30a04-default-rtdb.firebaseio.com"
+    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+    measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
+    databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL
 };
 
 // 初始化Firebase
