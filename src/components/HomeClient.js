@@ -3,12 +3,13 @@ import { initializeApp } from "firebase/app";
 import { getDatabase, ref, onValue, set, update, remove, push, serverTimestamp } from "firebase/database";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyD-TNMERMJYIdHFGJRnueHoWKF3vvQjfpQ",
-  authDomain: "ojbk-2fb8c.firebaseapp.com",
-  projectId: "ojbk-2fb8c",
-  storageBucket: "ojbk-2fb8c.firebasestorage.app",
-  messagingSenderId: "831587459313",
-  appId: "1:831587459313:web:8c3211ece2326606108950"
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL
 };
 
 const AVAILABLE_ROLES = ['Student', 'Teacher', 'Guard'];
